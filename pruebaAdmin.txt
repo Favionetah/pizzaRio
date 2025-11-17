@@ -1,0 +1,61 @@
+CREACION DEL ADMIN:
+-- 1. Asegurarse de que estamos usando la base de datos correcta
+USE pizzeria_db;
+
+-- 2. Crear el Rol de "Administrador"
+-- (Asumimos que el idRol será 1 gracias al AUTO_INCREMENT)
+INSERT INTO TRoles (nombreRol, descripcion, usuarioA) 
+VALUES ('Administrador', 'Rol con permisos totales del sistema', 'system_init');
+
+-- 3. Crear datos de ubicación (necesarios para la sucursal)
+INSERT INTO TDepartamentos (idDepartamento, nombreDepartamento, usuarioA) 
+VALUES ('LP', 'La Paz', 'system_init');
+
+INSERT INTO TCiudades (idCiudad, idDepartamento, nombreCiudad, usuarioA) 
+VALUES ('LP-01', 'LP', 'La Paz (Ciudad)', 'system_init');
+
+-- 4. Crear la Sucursal (necesaria para el empleado)
+INSERT INTO TSucursales (idSucursal, idCiudad, nombreSucursal, direccion, usuarioA) 
+VALUES ('SC-01', 'LP-01', 'Sucursal Central', 'Av. Principal 123', 'system_init');
+
+-- 5. Crear el Usuario 'admin'
+-- (Usa el idRol 1 que creamos en el paso 2)
+-- IMPORTANTE: La contraseña está hasheada.
+INSERT INTO TUsuarios (idUsuario, idRol, password, email, usuarioA) 
+VALUES (
+    'admin', 
+    1, 
+    '$2b$10$fVLUzP9/QOplqgDkSGlL/.y.1sC.jPFTwHn5R/w./GH0qOh3jI83C', 
+    'admin@pizzeria.com', 
+    'system_init'
+);
+
+-- 6. Crear el Empleado 'admin'
+-- (Vincula el idUsuario 'admin' con la sucursal 'SC-01')
+INSERT INTO TEmpleados (CIEmpleado, idUsuario, idSucursal, nombre1, apellido1, usuarioA) 
+VALUES ('1234567', 'admin', 'SC-01', 'Admin', 'User', 'system_init');
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+ELIMINACION DEL ADMIN:
+USE pizzeria_db;
+
+-- 1. Eliminar el Empleado (que depende de TUsuarios y TSucursales)
+DELETE FROM TEmpleados WHERE CIEmpleado = '1234567';
+
+-- 2. Eliminar el Usuario (que depende de TRoles)
+DELETE FROM TUsuarios WHERE idUsuario = 'admin';
+
+-- 3. Eliminar la Sucursal (que depende de TCiudades)
+DELETE FROM TSucursales WHERE idSucursal = 'SC-01';
+
+-- 4. Eliminar la Ciudad (que depende de TDepartamentos)
+DELETE FROM TCiudades WHERE idCiudad = 'LP-01';
+
+-- 5. Eliminar el Departamento
+DELETE FROM TDepartamentos WHERE idDepartamento = 'LP';
+
+-- 6. Eliminar el Rol (ahora que ya no está en uso)
+DELETE FROM TRoles WHERE nombreRol = 'Administrador';
