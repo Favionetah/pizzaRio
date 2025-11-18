@@ -7,12 +7,8 @@ app.use(cors()); //conecta con el Frontend
 app.use(express.json()); //para que entienda json que envia el Frontend (ej: el Login)
 
 const authRoutes = require('./routes/auth.routes');
-const ordersRoutes = require('./routes/orders.routes');
-const posRoutes = require('./routes/pos.routes');
 
 app.use('/api/auth', authRoutes);
-app.use('/api/orders', ordersRoutes);
-app.use('/api/pos', posRoutes);
 //app.use('/api/products', productRoutes); //aqui van las rutas de productos cuando se creen
 
 
