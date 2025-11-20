@@ -3,7 +3,11 @@
 const bcrypt = require('bcryptjs');
 
 // La contraseña que quieres usar
+<<<<<<< Updated upstream
 const passwordPlana = 'admin123';
+=======
+const passwordPlana = 'password123';
+>>>>>>> Stashed changes
 
 // El '10' es el "costo" de encriptación. 10 es un buen estándar.
 const hash = bcrypt.hashSync(passwordPlana, 10);

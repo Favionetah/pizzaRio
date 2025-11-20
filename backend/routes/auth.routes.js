@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const AuthController = require('../controllers/auth.controller');
+const { authMiddleware } = require('../middleware/auth');
 
-const AuthController = require('../controllers/auth.controller');//ruta de la autentificacion del login
-
+// Rutas públicas
 router.post('/login', AuthController.login);
-//se puede añadir mas rutas de autentificacion como: register
+router.post('/register', AuthController.register);
+
+// Rutas protegidas
+router.get('/verify', authMiddleware, AuthController.verify);
+router.get('/profile', authMiddleware, AuthController.getProfile);
 
 module.exports = router;
