@@ -1,62 +1,58 @@
 /proyecto_pizzeria/
-├── 📂 backend/         // Todo tu código de NodeJS (servidor, API)
+├── 📂 backend/
 │   ├── 📂 config/
-│   │   └── db.js       // Configuración de la conexión a MySQL
+│   │   └── db.js
 │   │
-│   ├── 📂 controllers/ // Lógica de negocio
-│   │   ├── auth.controller.js    // Iniciar sesión, registrarse
-│   │   ├── product.controller.js // Obtener pizzas, bebidas, etc.
-│   │   └── order.controller.js   // Crear orden, ver órdenes
+│   ├── 📂 controllers/
+│   │   ├── auth.controller.js
+│   │   ├── product.controller.js
+│   │   └── order.controller.js
 │   │
 │   ├── 📂 middleware/
-│   │   └── auth.js     // Verifica el token (JWT) y el ROL (si es 'cliente' o 'cajero')
+│   │   └── auth.js       // Ahora verifica el token y el ROL (cliente, cajero, admin)
 │   │
-│   ├── 📂 models/      // Lógica de la base de datos (consultas SQL)
+│   ├── 📂 models/
 │   │   ├── user.model.js
 │   │   ├── product.model.js
 │   │   └── order.model.js
 │   │
-│   ├── 📂 routes/      // Define las rutas de tu API
-│   │   ├── auth.routes.js    // POST /api/auth/login
-│   │   ├── client.routes.js  // GET /api/products, POST /api/orders
-│   │   └── pos.routes.js     // GET /api/orders/pending, PUT /api/orders/complete/:id
+│   ├── 📂 routes/       // ¡Cambio clave: Rutas unificadas por recurso!
+│   │   ├── auth.routes.js   // POST /api/auth/login
+│   │   ├── product.routes.js  // GET /api/products (Cliente & POS)
+│   │   └── order.routes.js    // POST /api/orders (Cliente), GET /api/orders/pending (POS)
 │   │
-│   ├── server.js       // El archivo principal que inicia el servidor (Express)
+│   ├── server.js
 │   └── package.json
 │
-├── 📂 frontend/        // Todo tu HTML, CSS y JS del lado del cliente
+|---|
+│
+├── 📂 frontend/        // Ahora todo el frontend es UNA SOLA aplicación
 │   │
-│   ├── 📂 client-app/    // <-- Aplicación para el CLIENTE
-│   │   ├── index.html    // Menú principal
-│   │   ├── cart.html     // Carrito de compras y checkout
-│   │   ├── my-orders.html// Historial de pedidos
+│   ├── 📂 public/        // Archivos estáticos comunes (CSS, JS de bibliotecas)
 │   │   ├── css/
-│   │   │   └── style.css
+│   │   │   └── main.css   // Estilos generales para toda la app
 │   │   └── js/
-│   │       ├── main.js   // Lógica del menú
-│   │       └── cart.js   // Lógica del carrito
+│   │       └── api.js     // Funciones compartidas de llamada a la API
 │   │
-│   ├── 📂 pos-app/       // <-- Aplicación para el CAJERO (Punto de Venta)
-│   │   ├── index.html    // Dashboard para tomar órdenes
-│   │   ├── queue.html    // Cola de pedidos pendientes
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   └── js/
-│   │       ├── main.js   // Lógica para crear un nuevo pedido
-│   │       └── queue.js  // Lógica para gestionar la cola
+│   ├── 📂 pages/         // Las diferentes "vistas" de la aplicación
+│   │   ├── login.html // Página de inicio de sesión (Común)
+│   │   ├── client-dashboard.html // Menú principal, carrito, historial de pedidos (Rol Cliente)
+│   │   └── pos-dashboard.html // Vista para tomar pedidos y ver cola (Rol Cajero/Admin)
 │   │
-│   ├── 📂 common/        // Archivos compartidos por ambas apps (cliente y pos)
+│   ├── 📂 assets/        // Imágenes, fuentes, etc.
 │   │   ├── img/
 │   │   │   ├── logo.png
 │   │   │   └── pizza_foto.jpg
-│   │   └── js/
-│   │       └── api.js    // (Opcional) Funciones para hacer 'fetch' al backend
+│   │   │
 │   │
-│   ├── login.html        // La página de inicio de sesión (COMÚN para ambos)
-│   ├── login.css
-│   └── login.js          // JS que maneja el login y REDIRIGE
+│   └── 📂 js/           // Archivos de lógica principal de la aplicación
+│       ├── app.js // Lógica principal: Maneja el inicio de sesión y la redirección
+│       ├── client.js // Lógica para el menú, carrito y pedidos de cliente
+│       └── pos.js // Lógica para la gestión de órdenes y TPV
+│
+|---|
 │
 ├── 📂 database/
-│   └── schema.sql      // Script para crear tus tablas (users, products, orders)
+│   └── schema.sql
 │
 └── README.md
